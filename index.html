@@ -10,7 +10,18 @@
     <style>
         :root { --bg-color: #1a1a1a; --card-bg: #000000; --text-color: #ffffff; --accent-blue: #007bff; --accent-green: #28a745; --accent-red: #dc3545; }
         body { margin: 0; padding: 40px 20px; background-color: var(--bg-color); color: var(--text-color); font-family: 'Space Mono', monospace; display: flex; flex-direction: column; align-items: center; }
-        .profile-pic { width: 96px; height: 96px; border-radius: 50%; background-image: url('https://ugc.production.linktr.ee/f868779c-9c76-4740-8041-e94589d67784_Avatar-LUISENVIVO.png'); background-size: cover; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.1); }
+        
+        /* Círculo de Perfil - URL Actualizada */
+        .profile-pic { 
+            width: 96px; 
+            height: 96px; 
+            border-radius: 50%; 
+            background-image: url('https://ugc.production.linktr.ee/09f45ba6-c86f-432d-9b8f-789ae2f3c1ce_IMG-20260109-075612-426.webp?io=true&size=avatar-v3_0'); 
+            background-size: cover; 
+            margin-bottom: 15px; 
+            border: 2px solid rgba(255,255,255,0.1); 
+        }
+
         h1 { font-size: 1.1rem; margin: 10px 0; letter-spacing: 2px; text-transform: uppercase; }
         p { font-size: 0.75rem; opacity: 0.8; margin-bottom: 25px; text-align: center; }
         .social-icons { display: flex; gap: 15px; margin-bottom: 35px; flex-wrap: wrap; justify-content: center; }
@@ -88,24 +99,18 @@
 
         function updateSchedule() {
             const now = new Date();
-            const day = now.getDay(); // 0: Sun, 1-4: Mon-Thu, 5: Fri, 6: Sat
+            const day = now.getDay();
             const hour = now.getHours();
             let status = "OFFLINE";
             let next = "";
 
-            // Lógica basada en Argentina (GMT-3) simplificada a local del usuario
-            // Lunes a Viernes: 19:00 - 21:00
             if (day >= 1 && day <= 5) {
                 if (hour >= 19 && hour < 21) status = "🔴 LIVE NOW";
                 else next = "MON-FRI: 7:00 PM - 9:00 PM (AR)";
-            } 
-            // Sábado: 14:00 - 20:00
-            else if (day === 6) {
+            } else if (day === 6) {
                 if (hour >= 14 && hour < 20) status = "🔴 LIVE NOW";
                 else next = "SATURDAY MARATHON: 2:00 PM (AR)";
-            }
-            // Domingo u otros
-            else {
+            } else {
                 next = "NEXT SESSION: MONDAY 7:00 PM (AR)";
             }
 
