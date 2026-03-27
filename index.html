@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -18,23 +17,26 @@
         .social-icons a { text-decoration: none; }
         .social-icons svg { width: 22px; height: 22px; fill: white; opacity: 0.9; }
         .container { width: 100%; max-width: 450px; }
+        
         @keyframes buzz { 0% { transform: translate(0); } 20% { transform: translate(-1px, 1px); } 40% { transform: translate(-1px, -1px); } 60% { transform: translate(1px, 1px); } 80% { transform: translate(1px, -1px); } 100% { transform: translate(0); } }
         
-        /* Botón Schedule */
         .btn-toggle { cursor: pointer; display: flex; align-items: center; justify-content: center; background-color: var(--card-bg); padding: 16px; margin-bottom: 5px; border-radius: 4px; color: white; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.5px; border: none; width: 100%; font-family: inherit; }
         .btn-schedule { animation: buzz 0.3s infinite; }
         
-        /* Área que se despliega */
         #schedule-content { 
             display: none; 
-            background: #222; 
-            padding: 15px; 
+            background: #111; 
+            padding: 20px; 
             border-radius: 4px; 
             margin-bottom: 12px; 
             font-size: 0.75rem; 
-            line-height: 1.6; 
-            border: 1px dashed var(--accent-blue);
+            line-height: 1.8; 
+            border: 1px solid var(--accent-blue);
+            text-align: center;
         }
+
+        .status-tag { color: var(--accent-green); font-weight: bold; display: block; margin-bottom: 10px; }
+        .schedule-line { border-top: 1px solid #333; margin-top: 10px; padding-top: 10px; opacity: 0.7; font-size: 0.65rem; }
 
         .btn { display: flex; align-items: center; justify-content: center; background-color: var(--card-bg); padding: 16px; margin-bottom: 12px; border-radius: 4px; text-decoration: none; color: white; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.5px; }
         .indicator { width: 10px; height: 10px; border-radius: 50%; margin-right: 12px; }
@@ -62,8 +64,11 @@
         </button>
         
         <div id="schedule-content">
-            FRIDAY: 19:00 - 21:00 (GMT-3)<br>
-            CHECK LOCAL TIME FOR OTHER ZONES.
+            <span id="live-status" class="status-tag">CALCULATING SESSION...</span>
+            <div id="local-time-info"></div>
+            <div class="schedule-line">
+                [Sonic Capsule Mission: Active]
+            </div>
         </div>
 
         <div class="video-card">
@@ -77,11 +82,35 @@
     <script>
         function toggleSchedule() {
             var content = document.getElementById("schedule-content");
-            if (content.style.display === "block") {
-                content.style.display = "none";
-            } else {
-                content.style.display = "block";
+            content.style.display = (content.style.display === "block") ? "none" : "block";
+            updateSchedule();
+        }
+
+        function updateSchedule() {
+            const now = new Date();
+            const day = now.getDay(); // 0: Sun, 1-4: Mon-Thu, 5: Fri, 6: Sat
+            const hour = now.getHours();
+            let status = "OFFLINE";
+            let next = "";
+
+            // Lógica basada en Argentina (GMT-3) simplificada a local del usuario
+            // Lunes a Viernes: 19:00 - 21:00
+            if (day >= 1 && day <= 5) {
+                if (hour >= 19 && hour < 21) status = "🔴 LIVE NOW";
+                else next = "MON-FRI: 7:00 PM - 9:00 PM (AR)";
+            } 
+            // Sábado: 14:00 - 20:00
+            else if (day === 6) {
+                if (hour >= 14 && hour < 20) status = "🔴 LIVE NOW";
+                else next = "SATURDAY MARATHON: 2:00 PM (AR)";
             }
+            // Domingo u otros
+            else {
+                next = "NEXT SESSION: MONDAY 7:00 PM (AR)";
+            }
+
+            document.getElementById("live-status").innerText = status;
+            document.getElementById("local-time-info").innerHTML = next + "<br><small>Your Timezone: " + Intl.DateTimeFormat().resolvedOptions().timeZone + "</small>";
         }
     </script>
 </body>
