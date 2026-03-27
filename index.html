@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUISENVIVO | Digital Broadcaster & Selector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --card-bg: #000000;
+            --text-color: #ffffff;
+            --accent-blue: #007bff;
+            --accent-green: #28a745;
+            --accent-red: #dc3545;
+        }
+
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Space Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-pic {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background-image: url('https://ugc.production.linktr.ee/f868779c-9c76-4740-8041-e94589d67784_Avatar-LUISENVIVO.png');
+            background-size: cover;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        h1 { font-size: 1.1rem; margin: 10px 0; letter-spacing: 2px; text-transform: uppercase; }
+        p { font-size: 0.75rem; opacity: 0.8; margin-bottom: 25px; text-align: center; }
+
+        .social-icons { display: flex; gap: 15px; margin-bottom: 35px; flex-wrap: wrap; justify-content: center; }
+        .social-icons a { text-decoration: none; }
+        .social-icons svg { width: 22px; height: 22px; fill: white; opacity: 0.9; transition: opacity 0.2s; }
+        .social-icons svg:hover { opacity: 1; }
+
+        .container { width: 100%; max-width: 450px; }
+
+        @keyframes buzz {
+            0% { transform: translate(0); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+            100% { transform: translate(0); }
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--card-bg);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+
+        .btn-schedule { animation: buzz 0.3s infinite; }
+
+        .indicator { width: 10px; height: 10px; border-radius: 50%; margin-right: 12px; }
+        .blue { background-color: var(--accent-blue); box-shadow: 0 0 8
