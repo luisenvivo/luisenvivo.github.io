@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,89 +9,43 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #1a1a1a;
-            --card-bg: #000000;
-            --text-color: #ffffff;
-            --accent-blue: #007bff;
-            --accent-green: #28a745;
-            --accent-red: #dc3545;
-        }
-
-        body {
-            margin: 0;
-            padding: 40px 20px;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: 'Space Mono', monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .profile-pic {
-            width: 96px;
-            height: 96px;
-            border-radius: 50%;
-            background-image: url('https://ugc.production.linktr.ee/f868779c-9c76-4740-8041-e94589d67784_Avatar-LUISENVIVO.png');
-            background-size: cover;
-            margin-bottom: 15px;
-            border: 2px solid rgba(255,255,255,0.1);
-        }
-
+        :root { --bg-color: #1a1a1a; --card-bg: #000000; --text-color: #ffffff; --accent-blue: #007bff; --accent-green: #28a745; --accent-red: #dc3545; }
+        body { margin: 0; padding: 40px 20px; background-color: var(--bg-color); color: var(--text-color); font-family: 'Space Mono', monospace; display: flex; flex-direction: column; align-items: center; }
+        .profile-pic { width: 96px; height: 96px; border-radius: 50%; background-image: url('https://ugc.production.linktr.ee/f868779c-9c76-4740-8041-e94589d67784_Avatar-LUISENVIVO.png'); background-size: cover; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.1); }
         h1 { font-size: 1.1rem; margin: 10px 0; letter-spacing: 2px; text-transform: uppercase; }
         p { font-size: 0.75rem; opacity: 0.8; margin-bottom: 25px; text-align: center; }
-
         .social-icons { display: flex; gap: 15px; margin-bottom: 35px; flex-wrap: wrap; justify-content: center; }
         .social-icons a { text-decoration: none; }
         .social-icons svg { width: 22px; height: 22px; fill: white; opacity: 0.9; }
-
         .container { width: 100%; max-width: 450px; }
-
-        @keyframes buzz {
-            0% { transform: translate(0); }
-            20% { transform: translate(-1px, 1px); }
-            40% { transform: translate(-1px, -1px); }
-            60% { transform: translate(1px, 1px); }
-            80% { transform: translate(1px, -1px); }
-            100% { transform: translate(0); }
-        }
-
-        .btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: var(--card-bg);
-            padding: 16px;
-            margin-bottom: 12px;
-            border-radius: 4px;
-            text-decoration: none;
-            color: white;
-            font-size: 0.8rem;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-        }
-
+        @keyframes buzz { 0% { transform: translate(0); } 20% { transform: translate(-1px, 1px); } 40% { transform: translate(-1px, -1px); } 60% { transform: translate(1px, 1px); } 80% { transform: translate(1px, -1px); } 100% { transform: translate(0); } }
+        
+        /* Botón Schedule */
+        .btn-toggle { cursor: pointer; display: flex; align-items: center; justify-content: center; background-color: var(--card-bg); padding: 16px; margin-bottom: 5px; border-radius: 4px; color: white; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.5px; border: none; width: 100%; font-family: inherit; }
         .btn-schedule { animation: buzz 0.3s infinite; }
+        
+        /* Área que se despliega */
+        #schedule-content { 
+            display: none; 
+            background: #222; 
+            padding: 15px; 
+            border-radius: 4px; 
+            margin-bottom: 12px; 
+            font-size: 0.75rem; 
+            line-height: 1.6; 
+            border: 1px dashed var(--accent-blue);
+        }
 
+        .btn { display: flex; align-items: center; justify-content: center; background-color: var(--card-bg); padding: 16px; margin-bottom: 12px; border-radius: 4px; text-decoration: none; color: white; font-size: 0.8rem; font-weight: bold; letter-spacing: 0.5px; }
         .indicator { width: 10px; height: 10px; border-radius: 50%; margin-right: 12px; }
         .blue { background-color: var(--accent-blue); box-shadow: 0 0 8px var(--accent-blue); }
         .green { background-color: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
         .red { background-color: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
-
-        .video-card {
-            background-color: var(--card-bg);
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 12px;
-            aspect-ratio: 16/9;
-        }
-
+        .video-card { background-color: var(--card-bg); border-radius: 4px; overflow: hidden; margin-bottom: 12px; aspect-ratio: 16/9; }
         iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
-
     <div class="profile-pic"></div>
     <h1>LUISENVIVO</h1>
     <p>Digital Broadcaster & Selector.</p>
@@ -102,22 +57,32 @@
     </div>
 
     <div class="container">
-        <a href="#" class="btn btn-schedule">
+        <button onclick="toggleSchedule()" class="btn-toggle btn-schedule">
             <span class="indicator blue"></span> STREAM SCHEDULE (Global Times)
-        </a>
+        </button>
+        
+        <div id="schedule-content">
+            FRIDAY: 19:00 - 21:00 (GMT-3)<br>
+            CHECK LOCAL TIME FOR OTHER ZONES.
+        </div>
 
         <div class="video-card">
             <iframe src="https://player.twitch.tv/?channel=luisenvivo&parent=luisenvivo.github.io&muted=true" allowfullscreen></iframe>
         </div>
 
-        <a href="https://kick.com/luisenvivo" class="btn">
-            <span class="indicator green"></span> KICK LIVE STREAM
-        </a>
-
-        <a href="https://hearthis.at/luisenvivo" class="btn">
-            <span class="indicator red"></span> HEARTHIS.AT | DJ SESSIONS
-        </a>
+        <a href="https://kick.com/luisenvivo" class="btn"><span class="indicator green"></span> KICK LIVE STREAM</a>
+        <a href="https://hearthis.at/luisenvivo" class="btn"><span class="indicator red"></span> HEARTHIS.AT | DJ SESSIONS</a>
     </div>
 
+    <script>
+        function toggleSchedule() {
+            var content = document.getElementById("schedule-content");
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>
