@@ -11,7 +11,6 @@
         :root { --bg-color: #1a1a1a; --card-bg: #000000; --text-color: #ffffff; --accent-blue: #007bff; --accent-green: #28a745; --accent-red: #dc3545; }
         body { margin: 0; padding: 40px 20px; background-color: var(--bg-color); color: var(--text-color); font-family: 'Space Mono', monospace; display: flex; flex-direction: column; align-items: center; }
         
-        /* Círculo de Perfil - URL Actualizada */
         .profile-pic { 
             width: 96px; 
             height: 96px; 
@@ -56,6 +55,18 @@
         .red { background-color: var(--accent-red); box-shadow: 0 0 8px var(--accent-red); }
         .video-card { background-color: var(--card-bg); border-radius: 4px; overflow: hidden; margin-bottom: 12px; aspect-ratio: 16/9; }
         iframe { width: 100%; height: 100%; border: none; }
+
+        /* Estilo del Footer */
+        footer {
+            margin-top: 40px;
+            padding: 20px;
+            font-size: 0.65rem;
+            opacity: 0.5;
+            text-align: center;
+            letter-spacing: 1px;
+            width: 100%;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
@@ -89,6 +100,10 @@
         <a href="https://kick.com/luisenvivo" class="btn"><span class="indicator green"></span> KICK LIVE STREAM</a>
         <a href="https://hearthis.at/luisenvivo" class="btn"><span class="indicator red"></span> HEARTHIS.AT | DJ SESSIONS</a>
     </div>
+
+    <footer>
+        &copy; 2026 LUISENVIVO. ALL RIGHTS RESERVED.
+    </footer>
 
     <script>
         function toggleSchedule() {
