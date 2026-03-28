@@ -112,12 +112,23 @@
         }
 
         function updateSchedule() {
-            const now = new Date();
-            const day = now.getDay();
-            const hour = now.getHours();
+            // Obtenemos día y hora forzando la zona horaria de Buenos Aires
+            const options = { timeZone: 'America/Argentina/Buenos_Aires', hour12: false };
+            const formatter = new Intl.DateTimeFormat('en-US', { 
+                ...options, 
+                weekday: 'numeric', 
+                hour: 'numeric' 
+            });
+            
+            const parts = formatter.formatToParts(new Date());
+            // Day 0: Sunday, 1: Monday... (en US locale)
+            const day = parseInt(parts.find(p => p.type === 'weekday').value);
+            const hour = parseInt(parts.find(p => p.type === 'hour').value);
+
             let status = "OFFLINE";
             let next = "";
 
+            // Lógica basada en hora de Argentina (ART)
             if (day >= 1 && day <= 5) {
                 // Lunes a Viernes: 19:00 - 21:00 ART
                 if (hour >= 19 && hour < 21) status = "🔴 LIVE NOW";
