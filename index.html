@@ -56,7 +56,6 @@
         .video-card { background-color: var(--card-bg); border-radius: 4px; overflow: hidden; margin-bottom: 12px; aspect-ratio: 16/9; }
         iframe { width: 100%; height: 100%; border: none; }
 
-        /* Estilo del Footer */
         footer {
             margin-top: 40px;
             padding: 20px;
@@ -120,11 +119,13 @@
             let next = "";
 
             if (day >= 1 && day <= 5) {
+                // Lunes a Viernes: 19:00 - 21:00 ART
                 if (hour >= 19 && hour < 21) status = "🔴 LIVE NOW";
                 else next = "MON-FRI: 7:00 PM - 9:00 PM (AR)";
             } else if (day === 6) {
-                if (hour >= 14 && hour < 20) status = "🔴 LIVE NOW";
-                else next = "SATURDAY MARATHON: 2:00 PM (AR)";
+                // Sábado: 15:00 - 19:00 ART
+                if (hour >= 15 && hour < 19) status = "🔴 LIVE NOW";
+                else next = "SATURDAY MARATHON: 3:00 PM - 7:00 PM (AR)";
             } else {
                 next = "NEXT SESSION: MONDAY 7:00 PM (AR)";
             }
