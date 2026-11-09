@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUISENVIVO | Official Website</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --accent-color: #66fcf1;
+            --text-color: #c5c6c7;
+            --white: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 650px;
+            width: 100%;
+            text-align: center;
+        }
+
+        header h1 {
+            color: var(--white);
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .badge {
+            background-color: #45a29e;
+            color: #000;
+            font-weight: bold;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: var(--white);
+            font-size: 1.1rem;
+            margin: 25px 0 15px 0;
+            text-align: left;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+        }
+
+        .links-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .link-card {
+            background-color: var(--card-bg);
+            color: var(--white);
+            text-decoration: none;
+            padding: 14px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: transform 0.2s, border 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .link-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-color);
+        }
+
+        .link-card.cafecito {
+            background: linear-gradient(135deg, #2b1f1d, #422d25);
+            border: 1px solid #ff8159;
+        }
+
+        .link-card.kofi {
+            background: linear-gradient(135deg, #1c2b36, #293e4f);
+            border: 1px solid #29abe2;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>LUISENVIVO</h1>
+            <p>Progressive House & Melodic Techno</p>
+            <div class="badge">THE BUNKER SESSIONS • Lunes a Sábados 19:00 ART</div>
+        </header>
+
+        <div class="section-title">📡 Transmisiones en Directo</div>
+        <div class="links-grid">
+            <a href="https://twitch.tv/luisenvivo" target="_blank" class="link-card">
+                <span>Twitch</span>
+                <span>▶</span>
+            </a>
+            <a href="https://kick.com/luisenvivo" target="_blank" class="link-card">
+                <span>Kick</span>
+                <span>▶</span>
+            </a>
+            <a href="https://hearthis.at/luisenvivo" target="_blank" class="link-card">
+                <span>Hearthis.at (Audio HD & Mixes)</span>
+                <span>🎧</span>
+            </a>
+        </div>
+
+        <div class="section-title">📦 Recursos & Descargas</div>
+        <div class="links-grid">
+            <a href="https://ko-fi.com/luisenvivo/shop" target="_blank" class="link-card">
+                <span>Tracklists Oficiales (.TXT)</span>
+                <span>📄</span>
+            </a>
+        </div>
+
+        <div class="section-title">🧉 Apoyo al Proyecto</div>
+        <div class="links-grid">
+            <a href="https://cafecito.app/luisenvivo" target="_blank" class="link-card cafecito">
+                <span>Cafecito (Argentina - Mercado Pago)</span>
+                <span>🇦🇷</span>
+            </a>
+            <a href="https://ko-fi.com/luisenvivo" target="_blank" class="link-card kofi">
+                <span>Ko-fi (International - PayPal USD)</span>
+                <span>🌍</span>
+            </a>
+        </div>
+
+        <footer>
+            <p>© LUISENVIVO | Argentina</p>
+        </footer>
+    </div>
+
+</body>
+</html>
