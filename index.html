@@ -1,132 +1,521 @@
 <!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUISENVIVO | Próximamente</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LUISENVIVO | Official Website | Live &amp; Sessions</title>
+  
+  <!-- SEO & Social Metadata -->
+  <meta name="description" content="Sitio oficial de LUISENVIVO. Transmisiones en directo, sets grabados y curaduría de música electrónica especializada en Progressive House, Deep Progressive & Melodic Techno desde Argentina.">
+  <meta name="author" content="LUISENVIVO">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Favicon e Isotipo -->
+  <link rel="icon" type="image/jpeg" href="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w880_h880_c3a3a3a_q70_ptrue_v2_m1775233583----cropped_1775233572697.jpg">
 
-    <!-- Favicon Personalizado -->
-    <link rel="icon" type="image/jpeg" href="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w800_q70_ptrue_v2_----1775233572697.jpg">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        bunker: {
-                            bg: '#070709',
-                            panel: 'rgba(16, 17, 22, 0.88)',
-                            card: 'rgba(22, 24, 33, 0.6)',
-                            accent: '#ff7700',
-                            cyan: '#06b6d4'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace']
-                    }
-                }
-            }
-        }
-    </script>
+    body {
+      background-color: #000000;
+      color: #ffffff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
 
-    <!-- Google Fonts & FontAwesome -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    /* Navbar superior */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+      background-color: #0a0a0a;
+      border-bottom: 1px solid #1f1f1f;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-    <style>
-        body {
-            background-color: #070709;
-            color: #f3f4f6;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-        }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      font-size: 1.1rem;
+      user-select: none;
+    }
 
-        .bg-grid {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-        }
+    /* Avatar del header */
+    .brand-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1.5px solid #ff3333;
+      box-shadow: 0 0 8px rgba(255, 51, 51, 0.4);
+    }
 
-        .glass-panel {
-            background: rgba(16, 17, 22, 0.88);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+    /* Botón Hamburguesa */
+    .hamburger-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding: 5px;
+      z-index: 10001;
+    }
 
-        .glass-card {
-            background: rgba(22, 24, 33, 0.6);
-            backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: all 0.3s ease;
-        }
+    .hamburger-btn span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background-color: #ffffff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
 
-        .glass-card:hover {
-            border-color: rgba(255, 119, 0, 0.4);
-            transform: translateY(-2px);
-        }
-    </style>
+    .hamburger-btn.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+      background-color: #ff3333;
+    }
+    .hamburger-btn.open span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger-btn.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+      background-color: #ff3333;
+    }
+
+    /* Menú Overlay 100% Negro Sólido */
+    .menu-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #000000 !important;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 28px;
+      z-index: 9999;
+    }
+
+    .menu-overlay.active {
+      display: flex;
+    }
+
+    .menu-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .menu-nav a {
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.2s ease, transform 0.2s ease;
+      display: inline-block;
+    }
+
+    .menu-nav a:hover, .menu-nav a.highlight {
+      color: #ff3333;
+      transform: scale(1.05);
+    }
+
+    .menu-footer-tag {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: #666666;
+      text-transform: uppercase;
+    }
+
+    /* Contenedor principal */
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px 16px 80px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Reproductor Principal Twitch */
+    .player-wrapper {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* Ratio 16:9 */
+      background: #050505;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid #1f1f1f;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9);
+    }
+
+    .player-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Leyenda Offline / Directa a Hearthis.at */
+    .offline-notice {
+      background-color: #0c0c0e;
+      border: 1px solid #1f1f24;
+      border-left: 4px solid #ff3333;
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 0.85rem;
+      color: #aaaaaa;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .offline-notice a {
+      color: #ffffff;
+      font-weight: 700;
+      text-decoration: none;
+      border-bottom: 1px solid #ff3333;
+      transition: color 0.2s ease;
+      display: inline-block;
+      margin-top: 4px;
+    }
+
+    .offline-notice a:hover {
+      color: #ff3333;
+    }
+
+    /* Stack de Botones Estilo Vorterix */
+    .platform-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .btn-platform {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 52px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.15s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+      user-select: none;
+    }
+
+    .btn-platform:active {
+      transform: scale(0.98);
+    }
+
+    .platform-icon {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .btn-twitch { 
+      background-color: #9146FF; 
+      color: #ffffff; 
+      box-shadow: 0 4px 14px rgba(145, 70, 255, 0.3);
+    }
+
+    .btn-kick { 
+      background-color: #53FC18; 
+      color: #000000; 
+      box-shadow: 0 4px 14px rgba(83, 252, 24, 0.2);
+    }
+
+    .btn-hearthis { 
+      background-color: #FF5500; 
+      color: #ffffff; 
+      box-shadow: 0 4px 14px rgba(255, 85, 0, 0.3);
+    }
+
+    /* Botón Support en Fondo Negro, Borde Blanco, Corazón Rojo */
+    .btn-support-toggle {
+      background-color: #000000;
+      color: #ffffff;
+      border: 1px solid #ffffff;
+      width: 100%;
+      box-shadow: 0 4px 14px rgba(255, 255, 255, 0.1);
+    }
+
+    .heart-red {
+      color: #ff3333;
+    }
+
+    .arrow-icon {
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+      margin-left: 8px;
+    }
+
+    .arrow-icon.open {
+      transform: rotate(180deg);
+    }
+
+    /* Opciones desplegables de Apoyo */
+    .support-options {
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 2px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .support-options.active {
+      display: flex;
+    }
+
+    .btn-sub-platform {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      height: 48px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: opacity 0.2s ease, transform 0.15s ease;
+    }
+
+    .btn-sub-platform:active {
+      transform: scale(0.98);
+    }
+
+    .btn-cafecito {
+      background-color: #121214;
+      color: #ffffff;
+      border: 1px solid #ff3333;
+    }
+
+    .btn-kofi {
+      background-color: #29ABE0;
+      color: #ffffff;
+    }
+
+    /* Footer Fijo */
+    footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #0a0a0c;
+      border-top: 1px solid #1f1f1f;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: #888888;
+      z-index: 90;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.5px;
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #ff3333;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #ff3333;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.9); }
+    }
+  </style>
 </head>
-<body class="bg-bunker-bg bg-grid min-h-screen flex flex-col justify-between items-center p-6 selection:bg-orange-500 selection:text-black">
+<body>
 
-    <!-- Header mínimo -->
-    <header class="w-full max-w-4xl mx-auto flex items-center justify-between py-6">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl overflow-hidden border border-white/20">
-                <img src="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w800_q70_ptrue_v2_----1775233572697.jpg" alt="LUISENVIVO" class="w-full h-full object-cover">
-            </div>
-            <span class="font-black tracking-wider text-white text-lg">LUISENVIVO</span>
-        </div>
-        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-950/60 border border-orange-500/30 text-orange-400 text-xs font-mono">
-            <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
-            <span>SITIO EN CONSTRUCCIÓN</span>
-        </div>
-    </header>
+  <!-- Header con Avatar -->
+  <header>
+    <div class="brand">
+      <img src="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w880_h880_c3a3a3a_q70_ptrue_v2_m1775233583----cropped_1775233572697.jpg" alt="LUISENVIVO" class="brand-avatar" onerror="this.src='https://placehold.co/100x100/ff3333/ffffff?text=LEV'">
+      <span>LUISENVIVO</span>
+    </div>
+    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Abrir Menú">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </header>
 
-    <!-- Contenido Central -->
-    <main class="w-full max-w-2xl mx-auto text-center space-y-8 my-auto py-12">
-        <div class="glass-panel rounded-3xl p-8 sm:p-12 border border-white/10 shadow-2xl space-y-6 relative overflow-hidden">
-            <div class="absolute -right-10 -top-10 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl pointer-events-none"></div>
-            
-            <div class="w-20 h-20 mx-auto rounded-2xl bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-400 text-3xl shadow-lg">
-                <i class="fa-solid fa-person-digging"></i>
-            </div>
+  <!-- Menú Hamburguesa en Pantalla Completa (Fondo Negro 100% Sólido) -->
+  <div class="menu-overlay" id="menuOverlay">
+    <nav class="menu-nav">
+      <a href="#" class="highlight" onclick="toggleMenu()">INICIO</a>
+      <a href="https://ko-fi.com/luisenvivo" target="_blank">SETS &amp; TRACKLISTS</a>
+      <a href="#horarios" onclick="toggleMenu()">HORARIOS</a>
+      <a href="#" onclick="toggleSupportFromMenu()">APOYAR EL BUNKER</a>
+    </nav>
+    <div class="menu-footer-tag">The Bunker Sessions • Progressive House</div>
+  </div>
 
-            <div class="space-y-3">
-                <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Estamos preparando algo nuevo</h1>
-                <p class="text-sm sm:text-base text-gray-400 leading-relaxed">
-                    El espacio oficial de <strong class="text-white">LUISENVIVO</strong> se está actualizando para ofrecerte la mejor experiencia en Progressive House y Melodic Techno.
-                </p>
-            </div>
+  <!-- Contenido Principal -->
+  <main>
+    <!-- Reproductor Principal de Twitch -->
+    <div class="player-wrapper">
+      <iframe 
+        src="https://player.twitch.tv/?channel=luisenvivo&amp;parent=localhost" 
+        allowfullscreen>
+      </iframe>
+    </div>
 
-            <!-- Accesos directos esenciales mientras tanto -->
-            <div class="pt-4 border-t border-white/10 space-y-3">
-                <p class="text-xs font-mono text-gray-500 uppercase tracking-widest">Canales oficiales de transmisión</p>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <a href="https://twitch.tv/luisenvivo" target="_blank" class="glass-card p-3 rounded-xl border border-purple-500/30 flex items-center justify-center gap-2 text-purple-300 hover:text-white text-xs font-semibold">
-                        <i class="fa-brands fa-twitch"></i> Twitch
-                    </a>
-                    <a href="https://hearthis.at/luisenvivo/" target="_blank" class="glass-card p-3 rounded-xl border border-orange-500/30 flex items-center justify-center gap-2 text-orange-300 hover:text-white text-xs font-semibold">
-                        <i class="fa-solid fa-cloud"></i> Hearthis.at
-                    </a>
-                    <a href="https://kick.com/luisenvivo" target="_blank" class="glass-card p-3 rounded-xl border border-emerald-500/30 flex items-center justify-center gap-2 text-emerald-300 hover:text-white text-xs font-semibold">
-                        <i class="fa-solid fa-bolt"></i> Kick
-                    </a>
-                </div>
-            </div>
-        </div>
-    </main>
+    <!-- Leyenda Offline / Enlace a Hearthis.at -->
+    <div class="offline-notice">
+      🎧 ¿Te perdiste la sesión o el vivo finalizó?<br>
+      <a href="https://hearthis.at/luisenvivo" target="_blank">Escuchá el último set subido en Hearthis.at →</a>
+    </div>
 
-    <!-- Footer -->
-    <footer class="w-full max-w-4xl mx-auto py-6 text-center text-xs text-gray-500 font-mono">
-        <p>© 2026 LUISENVIVO | Argentina</p>
-    </footer>
+    <!-- Stack de Botones con Iconos Oficiales a la derecha -->
+    <div class="platform-stack">
+      <!-- TWITCH -->
+      <a href="https://twitch.tv/luisenvivo" target="_blank" class="btn-platform btn-twitch">
+        <span>TWITCH</span>
+        <svg class="platform-icon" viewBox="0 0 24 24">
+          <path d="M11.571 4.714h1.715v5.143h-1.715zm4.715 0h1.714v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
+        </svg>
+      </a>
 
+      <!-- KICK -->
+      <a href="https://kick.com/luisenvivo" target="_blank" class="btn-platform btn-kick">
+        <span>KICK</span>
+        <svg class="platform-icon" viewBox="0 0 24 24">
+          <path d="M3 3h5v5h3V3h5v7h-3v2h3v9h-5v-5h-3v5H3V3zm5 7V8H6v4h2v-2z"/>
+        </svg>
+      </a>
+
+      <!-- HEARTHIS.AT (Con icono de radio de transmisión vintage) -->
+      <a href="https://hearthis.at/luisenvivo" target="_blank" class="btn-platform btn-hearthis">
+        <span>HEARTHIS.AT</span>
+        <svg class="platform-icon" viewBox="0 0 24 24">
+          <path d="M3.24 6.15C2.51 6.88 2 7.88 2 9v9c0 1.66 1.34 3 3 3h14c1.66 0 3-1.34 3-3V9c0-1.12-.51-2.12-1.24-2.85l-5.61-5.61a.996.996 0 0 0-1.41 0L3.24 6.15zM12 4.41l3.59 3.59H8.41L12 4.41zM20 18c0 .55-.45 1-1 1H5c-.55 0-1-.45-1-1v-8h16v8zm-8-6c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm0 4c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
+        </svg>
+      </a>
+
+      <!-- SUPPORT TOGGLE (Fondo Negro, Borde Blanco, Corazón Rojo) -->
+      <button class="btn-platform btn-support-toggle" onclick="toggleSupport()">
+        <span><span class="heart-red">❤️</span> SUPPORT / APOYAR</span>
+        <span class="arrow-icon" id="supportArrow">▼</span>
+      </button>
+
+      <!-- SUPPORT OPTIONS -->
+      <div class="support-options" id="supportOptions">
+        <!-- CAFECITO -->
+        <a href="https://cafecito.app/luisenvivo" target="_blank" class="btn-sub-platform btn-cafecito">
+          <span>☕ CAFECITO (ARS)</span>
+          <svg class="platform-icon" viewBox="0 0 24 24">
+            <path d="M2 19h18v2H2v-2zm2-17h12v11a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V2zm14 3h2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2h-2V5z"/>
+          </svg>
+        </a>
+        <!-- KO-FI -->
+        <a href="https://ko-fi.com/luisenvivo" target="_blank" class="btn-sub-platform btn-kofi">
+          <span>💙 KO-FI (USD)</span>
+          <svg class="platform-icon" viewBox="0 0 24 24">
+            <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H3.6s-2.268.225-2.268 2.378c0 4.316.02 11.758.02 11.758s.225 2.502 2.701 2.502h11.233s2.441-.129 2.64-2.502c.002-.023.63-3.66.63-3.66s3.784.09 5.093-2.617c1.31-2.707.232-3.266.232-3.266zm-4.708 3.407s-.35 1.547-1.89 1.547h-1.63V7.271h1.63s1.755.077 2.052 1.637c.297 1.56-.162 3.447-.162 3.447z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Barra de Estado Inferior Sticky -->
+  <footer>
+    <div class="status-badge">
+      <div class="pulse-dot"></div>
+      <span>TRANSMISIÓN EN DIRECTO</span>
+    </div>
+    <span>Progressive House | Argentina</span>
+  </footer>
+
+  <script>
+    // Control del Menú Hamburguesa
+    function toggleMenu() {
+      const menu = document.getElementById('menuOverlay');
+      const btn = document.getElementById('hamburgerBtn');
+      
+      const isActive = menu.classList.contains('active');
+
+      if (!isActive) {
+        menu.classList.add('active');
+        btn.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      } else {
+        menu.classList.remove('active');
+        btn.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // Control del Desplegable de Apoyo
+    function toggleSupport() {
+      const options = document.getElementById('supportOptions');
+      const arrow = document.getElementById('supportArrow');
+      
+      options.classList.toggle('active');
+      arrow.classList.toggle('open');
+    }
+
+    // Acceso a donaciones desde el menú hamburguesa
+    function toggleSupportFromMenu() {
+      toggleMenu();
+      const options = document.getElementById('supportOptions');
+      const arrow = document.getElementById('supportArrow');
+      
+      if (!options.classList.contains('active')) {
+        options.classList.add('active');
+        arrow.classList.add('open');
+      }
+      options.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
 </body>
 </html>
