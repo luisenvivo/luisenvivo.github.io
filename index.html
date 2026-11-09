@@ -1,167 +1,511 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUISENVIVO | Official Website</title>
+    <title>LUISENVIVO | Official Website - Live & Sessions</title>
+
+    <!-- Favicon Personalizado -->
+    <link rel="icon" type="image/jpeg" href="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w800_q70_ptrue_v2_----1775233572697.jpg">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        bunker: {
+                            bg: '#070709',
+                            panel: 'rgba(16, 17, 22, 0.85)',
+                            card: 'rgba(22, 24, 33, 0.6)',
+                            accent: '#ff7700', /* Color clásico Hearthis / Naranja DJ */
+                            cyan: '#06b6d4',
+                            glow: '#ff7700'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- HLS.js Library -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        :root {
-            --bg-color: #0b0c10;
-            --card-bg: #1f2833;
-            --accent-color: #66fcf1;
-            --text-color: #c5c6c7;
-            --white: #ffffff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 15px;
-            min-height: 100vh;
+            background-color: #070709;
+            color: #f3f4f6;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 650px;
-            width: 100%;
-            text-align: center;
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
         }
 
-        header h1 {
-            color: var(--white);
-            font-size: 2.2rem;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
+        .glass-panel {
+            background: rgba(16, 17, 22, 0.88);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        header p {
-            font-size: 0.95rem;
-            color: var(--accent-color);
-            margin-bottom: 25px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .glass-card {
+            background: rgba(22, 24, 33, 0.6);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .badge {
-            background-color: #45a29e;
-            color: #000;
-            font-weight: bold;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            color: var(--white);
-            font-size: 1.1rem;
-            margin: 25px 0 15px 0;
-            text-align: left;
-            border-bottom: 1px solid #333;
-            padding-bottom: 5px;
-        }
-
-        .links-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .link-card {
-            background-color: var(--card-bg);
-            color: var(--white);
-            text-decoration: none;
-            padding: 14px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: transform 0.2s, border 0.2s;
-            border: 1px solid transparent;
-        }
-
-        .link-card:hover {
+        .glass-card:hover {
+            border-color: rgba(255, 119, 0, 0.4);
             transform: translateY(-2px);
-            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px -5px rgba(255, 119, 0, 0.15);
         }
 
-        .link-card.cafecito {
-            background: linear-gradient(135deg, #2b1f1d, #422d25);
-            border: 1px solid #ff8159;
+        .hearthis-player-bg {
+            background: #111217;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .link-card.kofi {
-            background: linear-gradient(135deg, #1c2b36, #293e4f);
-            border: 1px solid #29abe2;
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 9999px;
+            height: 6px;
+            cursor: pointer;
         }
 
-        footer {
-            margin-top: 40px;
-            font-size: 0.8rem;
-            color: #666;
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #ff7700;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 119, 0, 0.8);
+            transition: all 0.2s ease;
         }
+
+        .pseudo-fullscreen {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 9999 !important;
+            border-radius: 0 !important;
+            border: none !important;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #070709; }
+        ::-webkit-scrollbar-thumb { background: #1f293d; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #ff7700; }
     </style>
 </head>
-<body>
+<body class="bg-bunker-bg bg-grid min-h-screen flex flex-col justify-between selection:bg-orange-500 selection:text-black relative">
 
-    <div class="container">
-        <header>
-            <h1>LUISENVIVO</h1>
-            <p>Progressive House & Melodic Techno</p>
-            <div class="badge">THE BUNKER SESSIONS • Lunes a Sábados 19:00 ART</div>
-        </header>
+    <header class="w-full border-b border-white/10 glass-panel sticky top-0 z-50 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3.5 group">
+                <div class="relative flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-600 to-cyan-500 text-white font-bold text-xl shadow-lg border border-white/20 overflow-hidden">
+                    <img src="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w800_q70_ptrue_v2_----1775233572697.jpg" alt="LUISENVIVO" class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <h1 class="text-xl sm:text-2xl font-black tracking-wider text-white flex items-center gap-2">
+                        LUISENVIVO
+                        <span class="text-[10px] font-normal px-2 py-0.5 rounded-full bg-orange-950/80 text-orange-300 border border-orange-500/40 font-mono tracking-widest">OFFICIAL</span>
+                    </h1>
+                    <p class="text-xs text-gray-400 font-mono tracking-widest uppercase">• Progressive House & Melodic Techno •</p>
+                </div>
+            </a>
 
-        <div class="section-title">📡 Transmisiones en Directo</div>
-        <div class="links-grid">
-            <a href="https://twitch.tv/luisenvivo" target="_blank" class="link-card">
-                <span>Twitch</span>
-                <span>▶</span>
-            </a>
-            <a href="https://kick.com/luisenvivo" target="_blank" class="link-card">
-                <span>Kick</span>
-                <span>▶</span>
-            </a>
-            <a href="https://hearthis.at/luisenvivo" target="_blank" class="link-card">
-                <span>Hearthis.at (Audio HD & Mixes)</span>
-                <span>🎧</span>
-            </a>
+            <div class="flex items-center">
+                <button onclick="openLiveModal()" class="flex items-center gap-2 px-4 py-2 rounded-full bg-red-950/70 hover:bg-red-900 border border-red-500/60 text-red-400 text-xs font-mono font-bold shadow-lg transition-all hover:scale-105 cursor-pointer">
+                    <span class="relative flex h-2.5 w-2.5">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                    </span>
+                    <span>EN VIVO</span>
+                </button>
+            </div>
         </div>
+    </header>
 
-        <div class="section-title">📦 Recursos & Descargas</div>
-        <div class="links-grid">
-            <a href="https://ko-fi.com/luisenvivo/shop" target="_blank" class="link-card">
-                <span>Tracklists Oficiales (.TXT)</span>
-                <span>📄</span>
-            </a>
+    <!-- Modal En Vivo -->
+    <div id="liveModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass-panel w-full max-w-3xl rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl relative space-y-6">
+            <button onclick="closeLiveModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-950/60 border border-red-500/40 text-red-400 text-xs font-mono font-bold">
+                    <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span> TRANSMISIÓN EN DIRECTO
+                </div>
+                <h3 class="text-2xl sm:text-3xl font-extrabold text-white">Canales Oficiales de Streaming</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="https://twitch.tv/luisenvivo" target="_blank" class="glass-card rounded-2xl p-5 border border-purple-500/30 flex flex-col items-center text-center space-y-3">
+                    <i class="fa-brands fa-twitch text-3xl text-purple-400"></i>
+                    <div class="text-base font-bold text-white">Twitch TV</div>
+                </a>
+                <a href="https://hearthis.at/luisenvivo/live/" target="_blank" class="glass-card rounded-2xl p-5 border border-orange-500/30 flex flex-col items-center text-center space-y-3">
+                    <i class="fa-solid fa-cloud text-3xl text-orange-400"></i>
+                    <div class="text-base font-bold text-white">Hearthis.at Live</div>
+                </a>
+                <a href="https://kick.com/luisenvivo" target="_blank" class="glass-card rounded-2xl p-5 border border-emerald-500/30 flex flex-col items-center text-center space-y-3">
+                    <i class="fa-solid fa-bolt text-3xl text-emerald-400"></i>
+                    <div class="text-base font-bold text-white">Kick Stream</div>
+                </a>
+            </div>
         </div>
-
-        <div class="section-title">🧉 Apoyo al Proyecto</div>
-        <div class="links-grid">
-            <a href="https://cafecito.app/luisenvivo" target="_blank" class="link-card cafecito">
-                <span>Cafecito (Argentina - Mercado Pago)</span>
-                <span>🇦🇷</span>
-            </a>
-            <a href="https://ko-fi.com/luisenvivo" target="_blank" class="link-card kofi">
-                <span>Ko-fi (International - PayPal USD)</span>
-                <span>🌍</span>
-            </a>
-        </div>
-
-        <footer>
-            <p>© LUISENVIVO | Argentina</p>
-        </footer>
     </div>
 
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full space-y-10 flex-grow z-10">
+
+        <!-- Reproductor HLS En Vivo -->
+        <section class="glass-panel rounded-3xl p-3 sm:p-5 shadow-2xl relative border border-white/10 space-y-4">
+            <div class="flex items-center justify-between px-2 pt-1">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-950/60 border border-orange-500/30 text-orange-300 text-xs font-mono">
+                    <i class="fa-solid fa-satellite-dish text-orange-400"></i>
+                    <span>LUISENVIVO • SEÑAL HLS EN DIRECTO</span>
+                </div>
+            </div>
+
+            <div id="video-wrapper" class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden border border-white/10 shadow-inner group">
+                <video id="hls-video" class="w-full h-full object-contain bg-black" playsinline></video>
+                <div id="video-overlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center gap-4 z-20">
+                    <button onclick="startStreamPlayback()" class="w-20 h-20 rounded-3xl bg-gradient-to-tr from-orange-600 to-amber-500 text-white text-3xl flex items-center justify-center shadow-lg cursor-pointer hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-play ml-1"></i>
+                    </button>
+                    <span class="text-sm font-bold text-white font-mono">ACTIVAR SEÑAL EN VIVO</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- REPRODUCTOR ESTILO HEARTHIS.AT (WIDGET AUTÉNTICO) -->
+        <section class="hearthis-player-bg rounded-2xl p-5 shadow-2xl border border-white/10 space-y-4">
+            <div class="flex flex-col md:flex-row items-center gap-5">
+                <!-- Portada / Disco -->
+                <div class="relative w-28 h-28 sm:w-32 sm:h-32 rounded-xl overflow-hidden flex-shrink-0 bg-black border border-white/10">
+                    <img id="playerCover" src="" alt="Cover" class="w-full h-full object-cover">
+                    <div class="absolute bottom-1 right-1 bg-black/80 px-1.5 py-0.5 rounded text-[9px] font-mono text-orange-400" id="playerGenre">Progressive</div>
+                </div>
+
+                <!-- Controles y Datos Estilo Hearthis -->
+                <div class="flex-grow w-full space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-mono text-orange-400 font-semibold" id="playerTag">HEARTHIS.AT OFFICIAL PLAYER</span>
+                        <span class="text-xs text-gray-400 font-mono" id="playerDate">Cargando XML...</span>
+                    </div>
+
+                    <h3 class="text-lg sm:text-xl font-bold text-white truncate" id="playerTitle">Seleccioná un set del catálogo XML</h3>
+                    <p class="text-xs text-gray-400 truncate" id="playerSubtitle">Sincronizado con feed RSS de Hearthis.at</p>
+
+                    <!-- Waveform / Barra de Progreso Estilo Hearthis -->
+                    <div class="space-y-1 pt-1">
+                        <div class="relative w-full h-10 bg-black/50 rounded-lg overflow-hidden flex items-center px-2 border border-white/5">
+                            <input type="range" id="progressBar" min="0" max="100" value="0" class="w-full z-10 accent-orange-500 cursor-pointer">
+                        </div>
+                        <div class="flex justify-between text-[11px] font-mono text-gray-400">
+                            <span id="currentTime">00:00</span>
+                            <span id="totalDuration">00:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botonera inferior Hearthis -->
+            <div class="flex flex-wrap items-center justify-between gap-4 pt-3 border-t border-white/10">
+                <div class="flex items-center gap-3">
+                    <button id="playBtn" class="w-12 h-12 rounded-full bg-[#ff7700] text-black flex items-center justify-center font-bold text-lg hover:scale-105 transition-all shadow-lg cursor-pointer">
+                        <i class="fa-solid fa-play ml-0.5" id="playIcon"></i>
+                    </button>
+                    <button id="rwBtn" class="p-2 text-gray-400 hover:text-white" title="-30s"><i class="fa-solid fa-rotate-left"></i></button>
+                    <button id="ffBtn" class="p-2 text-gray-400 hover:text-white" title="+30s"><i class="fa-solid fa-rotate-right"></i></button>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="flex items-center gap-2 bg-black/40 px-3 py-1.5 rounded-lg border border-white/5">
+                        <i class="fa-solid fa-volume-high text-orange-400 text-xs"></i>
+                        <input type="range" id="audioVolumeSlider" min="0" max="1" step="0.05" value="0.8" class="w-20 accent-orange-500">
+                    </div>
+                    <a id="externalHearthis" href="https://hearthis.at/luisenvivo/" target="_blank" class="px-4 py-2 rounded-xl bg-orange-500/20 text-orange-400 border border-orange-500/30 text-xs font-semibold flex items-center gap-2 hover:bg-orange-500/30 transition-all">
+                        <i class="fa-solid fa-cloud-arrow-down"><span>Hearthis.at</span></i>
+                    </a>
+                </div>
+            </div>
+            <audio id="audioEngine" preload="metadata"></audio>
+        </section>
+
+        <!-- SECCIÓN DE SESIONES CARGADAS DESDE XML -->
+        <section class="space-y-6">
+            <div class="flex items-center justify-between">
+                <h3 class="text-2xl font-bold text-white tracking-tight flex items-center gap-2">
+                    <i class="fa-solid fa-rss text-orange-400"></i>
+                    Feed XML / Podcast Hearthis.at
+                </h3>
+                <span id="xmlStatus" class="text-xs font-mono text-cyan-400 bg-cyan-950/60 px-3 py-1 rounded-full border border-cyan-500/30">Sincronizando feed...</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="sessionsGrid">
+                <!-- Se inyecta dinámicamente desde el XML -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full border-t border-white/10 glass-panel py-6 mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400 font-mono">
+            <div><span class="text-white font-bold">LUISENVIVO</span> | Official Hub 2026</div>
+            <div class="flex items-center gap-5">
+                <a href="https://hearthis.at/luisenvivo/podcast.xml" target="_blank" class="hover:text-orange-400 flex items-center gap-1">
+                    <i class="fa-solid fa-rss text-orange-400"></i> RSS Podcast Feed XML
+                </a>
+                <a href="https://hearthis.at/luisenvivo/" target="_blank" class="hover:text-orange-400">Perfil Hearthis.at</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Script de Integración XML y Reproductor Hearthis -->
+    <script>
+        const masterStreamUrl = 'https://streamlive8.hearthis.at/hls/9722627.m3u8';
+        const video = document.getElementById('hls-video');
+        const videoOverlay = document.getElementById('video-overlay');
+        let hlsPlayer = null;
+        let isStreamPlaying = false;
+
+        function initHlsVideo() {
+            if (Hls.isSupported()) {
+                hlsPlayer = new Hls();
+                hlsPlayer.loadSource(masterStreamUrl);
+                hlsPlayer.attachMedia(video);
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = masterStreamUrl;
+            }
+        }
+
+        function startStreamPlayback() {
+            if(isAudioPlaying) pauseAudio();
+            video.muted = false;
+            video.play().then(() => {
+                isStreamPlaying = true;
+                videoOverlay.classList.add('opacity-0', 'pointer-events-none');
+            });
+        }
+
+        // PARSER DEL FEED XML DE HEARTHIS.AT
+        let SESSIONS = [];
+        const RSS_URL = 'https://hearthis.at/luisenvivo/podcast.xml';
+        // Usamos un proxy público de confianza para evitar restricciones CORS del navegador al leer XML externo
+        const PROXY_URL = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(RSS_URL);
+
+        async function fetchHearthisFeed() {
+            const statusEl = document.getElementById('xmlStatus');
+            try {
+                const response = await fetch(PROXY_URL);
+                const text = await response.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(text, "text/xml");
+                const items = xmlDoc.querySelectorAll("item");
+
+                SESSIONS = [];
+                items.forEach((item, index) => {
+                    const title = item.querySelector("title")?.textContent || "Set en Vivo";
+                    const pubDate = item.querySelector("pubDate")?.textContent || "";
+                    const enclosure = item.querySelector("enclosure");
+                    const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
+                    
+                    // Extraer imagen del item (itunes:image o description)
+                    let cover = "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80";
+                    const itunesImg = item.getElementsByTagNameNS("*", "image")[0];
+                    if (itunesImg) {
+                        cover = itunesImg.getAttribute("href") || cover;
+                    }
+
+                    const desc = item.querySelector("description")?.textContent || "Progressive House & Melodic Techno Set.";
+
+                    if (audioUrl) {
+                        SESSIONS.push({
+                            id: index,
+                            title: title,
+                            subtitle: desc.replace(/<[^>]*>?/gm, '').substring(0, 90) + '...',
+                            genre: "Progressive House",
+                            date: new Date(pubDate).toLocaleDateString() || "Reciente",
+                            duration: "Set Completo",
+                            cover: cover,
+                            audioUrl: audioUrl,
+                            hearthisUrl: "https://hearthis.at/luisenvivo/"
+                        });
+                    }
+                });
+
+                if (SESSIONS.length > 0) {
+                    statusEl.innerText = `XML Sincronizado (${SESSIONS.length} sets)`;
+                    renderGrid();
+                    loadAudio(0);
+                } else {
+                    fallbackToDefaultSessions();
+                }
+            } catch (err) {
+                console.warn("Error leyendo XML, usando respaldo local:", err);
+                statusEl.innerText = "Modo Offline (Catálogo Local)";
+                fallbackToDefaultSessions();
+            }
+        }
+
+        function fallbackToDefaultSessions() {
+            SESSIONS = [
+                {
+                    id: 0,
+                    title: "LUISENVIVO | Progressive House & Melodic Techno Session",
+                    subtitle: "Transmisión en directo desde El Bunker Studio.",
+                    genre: "Progressive House",
+                    date: "Nov 2026",
+                    duration: "02:00:00",
+                    cover: "https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w800_q70_ptrue_v2_----1775233572697.jpg",
+                    audioUrl: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=electronic-future-beats-117997.mp3",
+                    hearthisUrl: "https://hearthis.at/luisenvivo/"
+                }
+            ];
+            renderGrid();
+            loadAudio(0);
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('sessionsGrid');
+            grid.innerHTML = SESSIONS.map((session, index) => `
+                <div class="glass-panel glass-card rounded-2xl p-5 border border-white/10 flex flex-col justify-between space-y-4 group">
+                    <div class="space-y-3">
+                        <div class="relative aspect-video rounded-xl overflow-hidden bg-black border border-white/10 flex items-center justify-center">
+                            <img src="${session.cover}" alt="${session.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <button onclick="loadAndPlayAudio(${index})" class="absolute w-12 h-12 rounded-full bg-[#ff7700] text-black flex items-center justify-center font-bold text-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer">
+                                <i class="fa-solid fa-play ml-0.5"></i>
+                            </button>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20">${session.genre}</span>
+                            <h4 class="text-base font-bold text-white line-clamp-1 mt-1">${session.title}</h4>
+                            <p class="text-xs text-gray-400 line-clamp-2 mt-1">${session.subtitle}</p>
+                        </div>
+                    </div>
+                    <div class="pt-3 border-t border-white/5 flex items-center justify-between">
+                        <button onclick="loadAndPlayAudio(${index})" class="text-xs font-semibold text-orange-400 hover:underline flex items-center gap-1 cursor-pointer">
+                            <i class="fa-solid fa-circle-play"></i> Reproducir Set
+                        </button>
+                        <a href="${session.hearthisUrl}" target="_blank" class="text-[11px] text-gray-400 hover:text-white font-mono">
+                            Hearthis.at <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Lógica del Reproductor de Audio
+        let currentAudioIndex = 0;
+        let isAudioPlaying = false;
+        const audio = document.getElementById('audioEngine');
+        const playBtn = document.getElementById('playBtn');
+        const playIcon = document.getElementById('playIcon');
+        const progressBar = document.getElementById('progressBar');
+        const audioVolumeSlider = document.getElementById('audioVolumeSlider');
+        const currentTimeEl = document.getElementById('currentTime');
+        const totalDurationEl = document.getElementById('totalDuration');
+        const playerCover = document.getElementById('playerCover');
+        const playerTitle = document.getElementById('playerTitle');
+        const playerSubtitle = document.getElementById('playerSubtitle');
+        const playerGenre = document.getElementById('playerGenre');
+        const playerDate = document.getElementById('playerDate');
+
+        function loadAudio(index) {
+            currentAudioIndex = index;
+            const track = SESSIONS[index];
+            audio.src = track.audioUrl;
+            playerCover.src = track.cover;
+            playerTitle.innerText = track.title;
+            playerSubtitle.innerText = track.subtitle;
+            playerGenre.innerText = track.genre;
+            playerDate.innerText = track.date;
+            progressBar.value = 0;
+        }
+
+        function loadAndPlayAudio(index) {
+            if (isStreamPlaying) {
+                video.pause();
+                isStreamPlaying = false;
+                videoOverlay.classList.remove('opacity-0', 'pointer-events-none');
+            }
+            loadAudio(index);
+            playAudio();
+            window.scrollTo({ top: 250, behavior: 'smooth' });
+        }
+
+        function playAudio() {
+            audio.play().then(() => {
+                isAudioPlaying = true;
+                playIcon.className = "fa-solid fa-pause";
+            }).catch(e => console.log("Play error:", e));
+        }
+
+        function pauseAudio() {
+            audio.pause();
+            isAudioPlaying = false;
+            playIcon.className = "fa-solid fa-play ml-0.5";
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (isAudioPlaying) pauseAudio();
+            else playAudio();
+        });
+
+        audio.addEventListener('timeupdate', () => {
+            if (!isNaN(audio.duration)) {
+                progressBar.value = (audio.currentTime / audio.duration) * 100;
+                currentTimeEl.innerText = formatTime(audio.currentTime);
+                totalDurationEl.innerText = formatTime(audio.duration);
+            }
+        });
+
+        progressBar.addEventListener('input', () => {
+            if (!isNaN(audio.duration)) {
+                audio.currentTime = (progressBar.value / 100) * audio.duration;
+            }
+        });
+
+        audioVolumeSlider.addEventListener('input', (e) => {
+            audio.volume = e.target.value;
+        });
+
+        document.getElementById('rwBtn').addEventListener('click', () => audio.currentTime = Math.max(0, audio.currentTime - 30));
+        document.getElementById('ffBtn').addEventListener('click', () => audio.currentTime = Math.min(audio.duration || 0, audio.currentTime + 30));
+
+        function formatTime(secs) {
+            const m = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        window.onload = function() {
+            initHlsVideo();
+            fetchHearthisFeed();
+            audio.volume = 0.8;
+        };
+    </script>
 </body>
 </html>
