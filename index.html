@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUISENVIVO | Official Website | Live & Sessions</title>
-  <meta name="description" content="Sitio oficial de LUISENVIVO. Transmisión en directo, sets de Progressive House, Deep Progressive y Melodic Techno desde Argentina.">
-  <link rel="icon" id="dynamic-favicon" href="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w880_h880_c3a3a3a_q70_ptrue_v2_m1775233583----cropped_1775233572697.jpg">
+  <title>LUISENVIVO | Official Website | Live &amp; Sessions</title>
   
+  <!-- SEO & Metadata -->
+  <meta name="description" content="Sitio oficial de LUISENVIVO. Transmisiones en directo, sets de Progressive House, Deep Progressive & Melodic Techno desde Argentina.">
+  <meta name="author" content="LUISENVIVO">
+  <meta name="robots" content="noindex, nofollow">
+  
+  <!-- Favicon e Isotipo -->
+  <link rel="icon" type="image/jpeg" href="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w880_h880_c3a3a3a_q70_ptrue_v2_m1775233583----cropped_1775233572697.jpg">
+
   <style>
     * {
       box-sizing: border-box;
@@ -21,17 +27,18 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
     }
 
-    /* Header */
+    /* Header Compacto y Moderno */
     header {
+      width: 100%;
+      max-width: 480px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 20px;
-      background-color: #0a0a0a;
-      border-bottom: 1px solid #1f1f1f;
-      position: relative;
+      padding: 20px 20px 10px 20px;
       z-index: 10;
     }
 
@@ -40,49 +47,64 @@
       align-items: center;
       gap: 12px;
       font-weight: 900;
-      letter-spacing: 2px;
-      font-size: 1.1rem;
+      letter-spacing: 2.5px;
+      font-size: 1.05rem;
+      user-select: none;
     }
 
     .brand-avatar {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       object-fit: cover;
-      border: 1px solid #ff3333;
+      border: 1.5px solid #ff3333;
+      box-shadow: 0 0 10px rgba(255, 51, 51, 0.3);
     }
 
     .hamburger-btn {
-      background: none;
-      border: none;
+      background: #111111;
+      border: 1px solid #222222;
+      border-radius: 50%;
+      width: 44px;
+      height: 44px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      align-items: center;
       gap: 5px;
-      padding: 5px;
+      transition: border-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .hamburger-btn:hover {
+      border-color: #ff3333;
+    }
+
+    .hamburger-btn:active {
+      transform: scale(0.95);
     }
 
     .hamburger-btn span {
       display: block;
-      width: 24px;
+      width: 18px;
       height: 2px;
       background-color: #ffffff;
       border-radius: 2px;
     }
 
-    /* Menú Overlay Fullscreen Negro Sólido */
+    /* Menú Overlay Fullscreen 100% Negro Sólido */
     .menu-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
-      background-color: #000000;
+      background-color: #000000 !important;
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      gap: 30px;
+      gap: 32px;
       z-index: 9999;
     }
 
@@ -90,6 +112,7 @@
       display: flex;
     }
 
+    /* Botón X de Cierre */
     .close-btn {
       position: absolute;
       top: 24px;
@@ -97,52 +120,72 @@
       background: none;
       border: none;
       color: #ff3333;
-      font-size: 2.8rem;
+      font-size: 3rem;
       cursor: pointer;
       line-height: 1;
-      width: 44px;
-      height: 44px;
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.2s ease;
+    }
+
+    .close-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .menu-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
     }
 
     .menu-nav a {
-      color: #ffffff;
+      color: #888888;
       text-decoration: none;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: 2px;
       text-transform: uppercase;
-      display: block;
-      text-align: center;
-      transition: color 0.2s ease;
+      transition: color 0.2s ease, transform 0.2s ease;
     }
 
     .menu-nav a:hover, .menu-nav a.highlight {
-      color: #ff3333;
+      color: #ffffff;
+      transform: scale(1.05);
     }
 
-    /* Contenido */
+    .menu-footer-tag {
+      font-size: 0.75rem;
+      letter-spacing: 2px;
+      color: #555555;
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
+
+    /* Contenedor Principal */
     main {
       flex: 1;
       width: 100%;
-      max-width: 500px;
-      margin: 0 auto;
-      padding: 20px 15px;
+      max-width: 480px;
+      padding: 15px 20px 30px 20px;
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
+    /* Reproductor Twitch */
     .player-wrapper {
       position: relative;
       width: 100%;
-      padding-top: 56.25%;
-      background: #050505;
-      border-radius: 16px;
+      padding-top: 56.25%; /* Ratio 16:9 */
+      background: #0a0a0a;
+      border-radius: 18px;
       overflow: hidden;
-      border: 1px solid #1f1f1f;
+      border: 1px solid #1a1a1a;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     }
 
     .player-wrapper iframe {
@@ -155,7 +198,7 @@
       z-index: 2;
     }
 
-    /* Respaldo Offline */
+    /* Tarjeta de Respaldo Offline */
     .offline-fallback {
       position: absolute;
       top: 0;
@@ -166,33 +209,38 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background-color: #0a0a0a;
+      background: linear-gradient(145deg, #0d0d0d, #050505);
       z-index: 1;
       padding: 20px;
       text-align: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .offline-notice {
-      background-color: #0a0a0a;
+      background-color: #0c0c0c;
       border: 1px solid #1f1f1f;
-      border-left: 4px solid #ff3333;
-      border-radius: 8px;
-      padding: 12px 16px;
+      border-radius: 14px;
+      padding: 14px 18px;
       font-size: 0.85rem;
-      color: #aaaaaa;
+      color: #999999;
       text-align: center;
-      line-height: 1.4;
+      line-height: 1.5;
     }
 
     .offline-notice a {
-      color: #ffffff;
+      color: #ff3333;
       font-weight: 700;
       text-decoration: none;
-      border-bottom: 1px solid #ff3333;
+      display: inline-block;
+      margin-top: 4px;
+      transition: color 0.2s ease;
     }
 
-    /* Stack de Botones */
+    .offline-notice a:hover {
+      color: #ffffff;
+    }
+
+    /* Stack de Botones de Plataformas */
     .platform-stack {
       display: flex;
       flex-direction: column;
@@ -203,17 +251,25 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
-      height: 54px;
-      border-radius: 12px;
+      padding: 0 22px;
+      height: 56px;
+      border-radius: 16px;
       text-decoration: none;
       font-weight: 800;
-      font-size: 0.95rem;
-      letter-spacing: 1.5px;
+      font-size: 0.9rem;
+      letter-spacing: 2px;
       text-transform: uppercase;
-      border: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       cursor: pointer;
-      transition: transform 0.15s ease;
+      transition: all 0.2s ease;
+      background-color: #111111;
+      color: #ffffff;
+      user-select: none;
+    }
+
+    .btn-platform:hover {
+      border-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
     }
 
     .btn-platform:active {
@@ -226,22 +282,43 @@
       fill: currentColor;
     }
 
-    .btn-twitch { background-color: #9146FF; color: #ffffff; }
-    .btn-kick { background-color: #53FC18; color: #000000; }
-    .btn-hearthis { background-color: #ff5500; color: #ffffff; }
+    /* Hovers por Marca */
+    .btn-twitch:hover { border-color: #9146FF; color: #9146FF; }
+    .btn-kick:hover { border-color: #53FC18; color: #53FC18; }
+    .btn-hearthis:hover { border-color: #ff5500; color: #ff5500; }
 
-    /* Botón Support */
+    /* Botón Support / Apoyar */
     .btn-support-toggle {
       background-color: #000000;
       color: #ffffff;
       border: 1px solid #ffffff;
-      width: 100%;
     }
 
+    .btn-support-toggle:hover {
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    .arrow-icon {
+      font-size: 0.75rem;
+      transition: transform 0.3s ease;
+    }
+
+    .arrow-icon.open {
+      transform: rotate(180deg);
+    }
+
+    /* Opciones desplegables de Apoyo */
     .support-options {
       display: none;
       flex-direction: column;
       gap: 10px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .support-options.active {
@@ -249,27 +326,39 @@
     }
 
     .btn-cafecito {
-      background-color: #1a1a1a;
+      background-color: #111111;
+      border-color: #ff3333;
+      font-size: 0.82rem;
+    }
+
+    .btn-cafecito:hover {
+      background-color: #ff3333;
       color: #ffffff;
-      border: 1px solid #ff3333;
-      font-size: 0.85rem;
     }
 
     .btn-kofi {
-      background-color: #29abe0;
-      color: #ffffff;
-      font-size: 0.85rem;
+      background-color: #111111;
+      border-color: #29abe0;
+      font-size: 0.82rem;
     }
 
+    .btn-kofi:hover {
+      background-color: #29abe0;
+      color: #ffffff;
+    }
+
+    /* Footer */
     footer {
-      background-color: #0a0a0a;
-      border-top: 1px solid #1f1f1f;
-      padding: 14px 20px;
+      width: 100%;
+      max-width: 480px;
+      padding: 10px 20px 25px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 0.8rem;
-      color: #777777;
+      font-size: 0.75rem;
+      color: #666666;
+      border-top: 1px solid #111111;
+      margin-top: auto;
     }
 
     .status-badge {
@@ -279,80 +368,91 @@
     }
 
     .pulse-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       background-color: #ff3333;
       border-radius: 50%;
-      box-shadow: 0 0 6px #ff3333;
+      box-shadow: 0 0 8px #ff3333;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
     }
   </style>
 </head>
 <body>
 
+  <!-- Header -->
   <header>
     <div class="brand">
-      <img src="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w880_h880_c3a3a3a_q70_ptrue_v2_m1775233583----cropped_1775233572697.jpg" alt="LUISENVIVO Avatar" class="brand-avatar">
+      <img src="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w880_h880_c3a3a3a_q70_ptrue_v2_m1775233583----cropped_1775233572697.jpg" alt="LUISENVIVO Avatar" class="brand-avatar" onerror="this.src='https://placehold.co/100x100/ff3333/ffffff?text=LEV'">
       <span>LUISENVIVO</span>
     </div>
-    <button class="hamburger-btn" onclick="toggleMenu()" aria-label="Abrir menú">
+    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Abrir menú">
       <span></span>
       <span></span>
       <span></span>
     </button>
   </header>
 
-  <!-- Menú Hamburguesa con Botón X de Cierre -->
+  <!-- Menú Overlay Fullscreen con Cruz Roja en la esquina superior derecha -->
   <div class="menu-overlay" id="menuOverlay">
     <button class="close-btn" onclick="toggleMenu()" aria-label="Cerrar menú">&times;</button>
     <nav class="menu-nav">
       <a href="#" class="highlight" onclick="toggleMenu()">INICIO</a>
-      <a href="https://ko-fi.com/luisenvivo" target="_blank">SETS & TRACKLISTS</a>
-      <a href="#programacion" onclick="toggleMenu()">HORARIOS</a>
+      <a href="https://ko-fi.com/luisenvivo" target="_blank">SETS &amp; TRACKLISTS</a>
+      <a href="#" onclick="toggleMenu()">HORARIOS</a>
       <a href="#" onclick="toggleSupportFromMenu()">APOYAR EL BUNKER</a>
     </nav>
+    <div class="menu-footer-tag">The Bunker Sessions • Progressive House</div>
   </div>
 
+  <!-- Contenido Principal -->
   <main>
+    <!-- Reproductor Twitch con Respaldo Offline -->
     <div class="player-wrapper">
       <div class="offline-fallback">
-        <p style="font-weight: 700; color: #ffffff;">LUISENVIVO | OFFLINE</p>
-        <p style="font-size: 0.8rem; color: #888888;">Escuchá la última sesión grabada mientras se prepara el próximo stream.</p>
+        <p style="font-weight: 700; color: #ffffff; font-size: 0.9rem; letter-spacing: 1px;">THE BUNKER SESSIONS</p>
+        <p style="font-size: 0.78rem; color: #777777;">Transmisión inactiva en este momento.</p>
       </div>
       <iframe id="twitch-embed" allowfullscreen></iframe>
     </div>
 
+    <!-- Leyenda Offline -->
     <div class="offline-notice">
-      🎧 ¿Te perdiste la sesión o el vivo finalizó? <br>
-      <a href="https://hearthis.at/luisenvivo" target="_blank">Escuchá el último set subido en Hearthis.at →</a>
+      🎧 ¿Querés escuchar música ahora mismo? <br>
+      <a href="https://hearthis.at/luisenvivo" target="_blank">Escuchá el último set en Hearthis.at →</a>
     </div>
 
+    <!-- Stack de Botones principales -->
     <div class="platform-stack">
-      <!-- Twitch -->
+      <!-- TWITCH -->
       <a href="https://twitch.tv/luisenvivo" target="_blank" class="btn-platform btn-twitch">
         <span>TWITCH</span>
         <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143h-1.715zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
       </a>
 
-      <!-- Kick -->
+      <!-- KICK -->
       <a href="https://kick.com/luisenvivo" target="_blank" class="btn-platform btn-kick">
         <span>KICK</span>
         <svg viewBox="0 0 24 24"><path d="M3 3h6v4.5h3V3h9v6h-4.5v1.5H21v10.5h-6V15h-3v6H3V3z"/></svg>
       </a>
 
-      <!-- Hearthis.at (Radio Vintage Icon) -->
-<a href="https://hearthis.at/luisenvivo" target="_blank" class="btn-platform btn-hearthis">
-  <span>HEARTHIS.AT</span>
-  <svg viewBox="0 0 24 24"><path d="M2 3h14v18H2V3zm12 2H4v14h10V5zm7 3v13h-3v2h5V8h-2zM9 8.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM9 10a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7-7h-3v2h3v13h2V3h-2z"/></svg>
-</a>
+      <!-- HEARTHIS.AT (Icono SVG Vinilo de SVG Repo - Coolicons) -->
+      <a href="https://hearthis.at/luisenvivo" target="_blank" class="btn-platform btn-hearthis">
+        <span>HEARTHIS.AT</span>
+        <svg viewBox="0 0 24 24"><path d="M2 3h14v18H2V3zm12 2H4v14h10V5zm7 3v13h-3v2h5V8h-2zM9 8.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM9 10a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7-7h-3v2h3v13h2V3h-2z"/></svg>
+      </a>
 
-
-
-      <!-- Support Button -->
+      <!-- SUPPORT TOGGLE -->
       <button class="btn-platform btn-support-toggle" onclick="toggleSupport()">
         <span><span style="color: #ff3333;">❤️</span> SUPPORT / APOYAR</span>
-        <span style="font-size: 0.8rem;">▼</span>
+        <span class="arrow-icon" id="supportArrow">▼</span>
       </button>
 
+      <!-- SUPPORT OPTIONS DESPLEGABLE -->
       <div class="support-options" id="supportOptions">
         <a href="https://cafecito.app/luisenvivo" target="_blank" class="btn-platform btn-cafecito">
           <span>☕ CAFECITO (ARS)</span>
@@ -366,32 +466,52 @@
     </div>
   </main>
 
+  <!-- Footer -->
   <footer>
     <div class="status-badge">
       <div class="pulse-dot"></div>
-      <span>TRANSMISIÓN EN DIRECTO</span>
+      <span>EN DIRECTO</span>
     </div>
     <span>Argentina</span>
   </footer>
 
   <script>
-    // Detección dinámica de parent para Twitch
+    // Configurar iframe de Twitch con detección dinámica de dominio (evita bloqueo por parent)
     const currentHost = window.location.hostname || 'localhost';
     document.getElementById('twitch-embed').src = `https://player.twitch.tv/?channel=luisenvivo&parent=${currentHost}&autoplay=false`;
 
+    // Abrir/Cerrar menú hamburguesa
     function toggleMenu() {
-      document.getElementById('menuOverlay').classList.toggle('active');
+      const menu = document.getElementById('menuOverlay');
+      const isActive = menu.classList.contains('active');
+
+      if (!isActive) {
+        menu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        menu.classList.remove('active');
+        document.body.style.overflow = '';
+      }
     }
 
+    // Toggle de Support
     function toggleSupport() {
-      document.getElementById('supportOptions').classList.toggle('active');
+      const options = document.getElementById('supportOptions');
+      const arrow = document.getElementById('supportArrow');
+      
+      options.classList.toggle('active');
+      arrow.classList.toggle('open');
     }
 
+    // Navegar a donaciones desde el menú
     function toggleSupportFromMenu() {
       toggleMenu();
       const options = document.getElementById('supportOptions');
+      const arrow = document.getElementById('supportArrow');
+      
       if (!options.classList.contains('active')) {
         options.classList.add('active');
+        arrow.classList.add('open');
       }
       options.scrollIntoView({ behavior: 'smooth' });
     }
