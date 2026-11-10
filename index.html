@@ -429,7 +429,7 @@
   <script>
     // Detección dinámica del parent para Twitch
     const currentHost = window.location.hostname || 'localhost';
-    document.getElementById('twitch-embed').src = `https://player.twitch.tv/?channel=luisenvivo&parent=${currentHost}&autoplay=false`;
+    document.getElementById('twitch-embed').src = `https://player.twitch.tv/?channel=luisenvivo&parent=${currentHost}&autoplay=true`;
 
     function toggleMenu() {
       document.getElementById('menuOverlay').classList.toggle('active');
