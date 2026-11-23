@@ -267,7 +267,7 @@
       font-size: 0.9rem;
       letter-spacing: 2px;
       text-transform: uppercase;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       cursor: pointer;
       transition: all 0.2s ease;
       background-color: #111111;
@@ -277,8 +277,7 @@
     }
 
     .btn-platform:hover {
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
     .btn-platform:active {
@@ -292,22 +291,58 @@
       flex-shrink: 0;
     }
 
-    /* Hovers por Marca */
-    .btn-twitch:hover { border-color: #9146FF; color: #9146FF; }
-    .btn-kick:hover { border-color: #53FC18; color: #53FC18; }
-    .btn-hearthis:hover { border-color: #ff3333; color: #ff3333; }
-    .btn-soundcloud:hover { border-color: #ff5500; color: #ff5500; }
+    /* Colores activos por Marca */
+    .btn-twitch {
+      border-color: rgba(145, 70, 255, 0.55);
+      background: linear-gradient(90deg, rgba(145, 70, 255, 0.12) 0%, #111111 65%);
+    }
+    .btn-twitch svg { color: #9146FF; }
+    .btn-twitch:hover {
+      border-color: #9146FF;
+      box-shadow: 0 4px 18px rgba(145, 70, 255, 0.22);
+    }
+
+    .btn-kick {
+      border-color: rgba(83, 252, 24, 0.5);
+      background: linear-gradient(90deg, rgba(83, 252, 24, 0.1) 0%, #111111 65%);
+    }
+    .btn-kick svg { color: #53FC18; }
+    .btn-kick:hover {
+      border-color: #53FC18;
+      box-shadow: 0 4px 18px rgba(83, 252, 24, 0.18);
+    }
+
+    .btn-hearthis {
+      border-color: rgba(255, 51, 51, 0.55);
+      background: linear-gradient(90deg, rgba(255, 51, 51, 0.12) 0%, #111111 65%);
+    }
+    .btn-hearthis svg { color: #ff3333; }
+    .btn-hearthis:hover {
+      border-color: #ff3333;
+      box-shadow: 0 4px 18px rgba(255, 51, 51, 0.2);
+    }
+
+    .btn-soundcloud {
+      border-color: rgba(255, 85, 0, 0.55);
+      background: linear-gradient(90deg, rgba(255, 85, 0, 0.12) 0%, #111111 65%);
+    }
+    .btn-soundcloud svg { color: #ff5500; }
+    .btn-soundcloud:hover {
+      border-color: #ff5500;
+      box-shadow: 0 4px 18px rgba(255, 85, 0, 0.22);
+    }
 
     /* Botón Support / Apoyar */
     .btn-support-toggle {
-      background-color: #000000;
+      background-color: #0d0d0d;
       color: #ffffff;
-      border: 1px solid #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.45);
     }
 
     .btn-support-toggle:hover {
       background-color: #ffffff;
       color: #000000;
+      border-color: #ffffff;
     }
 
     .arrow-icon {
@@ -337,25 +372,25 @@
     }
 
     .btn-cafecito {
-      background-color: #111111;
-      border-color: #ff3333;
+      background: linear-gradient(90deg, rgba(255, 51, 51, 0.12) 0%, #111111 65%);
+      border-color: rgba(255, 51, 51, 0.55);
       font-size: 0.82rem;
     }
-
+    .btn-cafecito svg { color: #ff3333; }
     .btn-cafecito:hover {
       border-color: #ff3333;
-      color: #ff3333;
+      box-shadow: 0 4px 16px rgba(255, 51, 51, 0.2);
     }
 
     .btn-kofi {
-      background-color: #111111;
-      border-color: #29abe0;
+      background: linear-gradient(90deg, rgba(41, 171, 224, 0.14) 0%, #111111 65%);
+      border-color: rgba(41, 171, 224, 0.55);
       font-size: 0.82rem;
     }
-
+    .btn-kofi svg { color: #29abe0; }
     .btn-kofi:hover {
       border-color: #29abe0;
-      color: #29abe0;
+      box-shadow: 0 4px 16px rgba(41, 171, 224, 0.2);
     }
 
     /* Footer Minimalista */
