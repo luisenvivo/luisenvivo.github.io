@@ -39,7 +39,8 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px 20px 10px 20px;
-      z-index: 10;
+      position: relative;
+      z-index: 20;
     }
 
     .brand {
@@ -74,6 +75,8 @@
       align-items: center;
       gap: 5px;
       transition: border-color 0.2s ease, transform 0.15s ease;
+      position: relative;
+      z-index: 30;
     }
 
     .hamburger-btn:hover {
@@ -90,16 +93,16 @@
       height: 2px;
       background-color: #ffffff;
       border-radius: 2px;
+      pointer-events: none;
     }
 
     /* Menú Overlay Fullscreen 100% Negro Sólido */
     .menu-overlay {
       position: fixed;
-      top: 0;
-      left: 0;
+      inset: 0;
       width: 100vw;
       height: 100vh;
-      background-color: #000000 !important;
+      background-color: #000000;
       display: none;
       flex-direction: column;
       justify-content: center;
@@ -196,15 +199,13 @@
       height: 100%;
       border: none;
       z-index: 2;
+      background-color: transparent;
     }
 
     /* Tarjeta de Respaldo Offline */
     .offline-fallback {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      inset: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -214,6 +215,13 @@
       padding: 20px;
       text-align: center;
       gap: 8px;
+    }
+
+    .offline-note-small {
+      font-size: 0.72rem;
+      color: #555555;
+      max-width: 280px;
+      line-height: 1.35;
     }
 
     .offline-notice {
@@ -265,6 +273,7 @@
       background-color: #111111;
       color: #ffffff;
       user-select: none;
+      width: 100%;
     }
 
     .btn-platform:hover {
@@ -413,7 +422,7 @@
       <img src="https://img.hearthis.at/7/9/6/_/uploads/9722627/image_user/w880_h880_c3a3a3a_q70_ptrue_v2_m1775233583----cropped_1775233572697.jpg" alt="LUISENVIVO Avatar" class="brand-avatar" onerror="this.src='https://placehold.co/100x100/ff3333/ffffff?text=LEV'">
       <span>LUISENVIVO</span>
     </div>
-    <button class="hamburger-btn" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Abrir menú">
+    <button type="button" class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
       <span></span>
       <span></span>
       <span></span>
@@ -421,12 +430,12 @@
   </header>
 
   <!-- Menú Overlay Fullscreen con Cruz Roja en la esquina superior derecha -->
-  <div class="menu-overlay" id="menuOverlay">
-    <button class="close-btn" onclick="toggleMenu()" aria-label="Cerrar menú">&times;</button>
+  <div class="menu-overlay" id="menuOverlay" aria-hidden="true">
+    <button type="button" class="close-btn" id="closeMenuBtn" aria-label="Cerrar menú">&times;</button>
     <nav class="menu-nav">
-      <a href="#" class="highlight" onclick="toggleMenu()">INICIO</a>
-      <a href="https://ko-fi.com/luisenvivo" target="_blank">SETS &amp; TRACKLISTS</a>
-      <a href="https://twitch.tv/luisenvivo/schedule" target="_blank">HORARIOS</a>
+      <a href="#" class="highlight" id="menuHomeLink">INICIO</a>
+      <a href="https://ko-fi.com/luisenvivo" target="_blank" rel="noopener noreferrer">SETS &amp; TRACKLISTS</a>
+      <a href="https://twitch.tv/luisenvivo/schedule" target="_blank" rel="noopener noreferrer">HORARIOS</a>
     </nav>
     <div class="menu-footer-tag">LUISENVIVO 2026, Argentina.</div>
   </div>
@@ -438,20 +447,21 @@
       <div class="offline-fallback">
         <p style="font-weight: 700; color: #ffffff; font-size: 0.9rem; letter-spacing: 1px;">THE BUNKER SESSIONS</p>
         <p style="font-size: 0.78rem; color: #777777;">Transmisión inactiva en este momento.</p>
+        <p class="offline-note-small" id="twitchLocalHint"></p>
       </div>
-      <iframe id="twitch-embed" allowfullscreen></iframe>
+      <iframe id="twitch-embed" allowfullscreen allow="autoplay; fullscreen"></iframe>
     </div>
 
     <!-- Leyenda Offline -->
     <div class="offline-notice">
       🎧 ¿Querés escuchar música ahora mismo? <br>
-      <a href="https://hearthis.at/luisenvivo" target="_blank">Escuchá el último set en Hearthis.at →</a>
+      <a href="https://hearthis.at/luisenvivo" target="_blank" rel="noopener noreferrer">Escuchá el último set en Hearthis.at →</a>
     </div>
 
     <!-- Stack de Botones principales -->
     <div class="platform-stack">
       <!-- TWITCH -->
-      <a href="https://twitch.tv/luisenvivo" target="_blank" class="btn-platform btn-twitch">
+      <a href="https://twitch.tv/luisenvivo" target="_blank" rel="noopener noreferrer" class="btn-platform btn-twitch">
         <span>TWITCH</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M11.571 4.714h1.715v5.143h-1.715zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/>
@@ -459,7 +469,7 @@
       </a>
 
       <!-- KICK -->
-      <a href="https://kick.com/luisenvivo" target="_blank" class="btn-platform btn-kick">
+      <a href="https://kick.com/luisenvivo" target="_blank" rel="noopener noreferrer" class="btn-platform btn-kick">
         <span>KICK</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M3 2h6v6h3V5h3V2h6v6h-3v3h-3v2h3v3h3v6h-6v-3h-3v-3H9v6H3V2z"/>
@@ -467,7 +477,7 @@
       </a>
 
       <!-- HEARTHIS.AT -->
-      <a href="https://hearthis.at/luisenvivo" target="_blank" class="btn-platform btn-hearthis">
+      <a href="https://hearthis.at/luisenvivo" target="_blank" rel="noopener noreferrer" class="btn-platform btn-hearthis">
         <span>HEARTHIS.AT</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/>
@@ -475,7 +485,7 @@
       </a>
 
       <!-- SOUNDCLOUD -->
-      <a href="https://soundcloud.com/luisenvivo" target="_blank" class="btn-platform btn-soundcloud">
+      <a href="https://soundcloud.com/luisenvivo" target="_blank" rel="noopener noreferrer" class="btn-platform btn-soundcloud">
         <span>SOUNDCLOUD</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M11.56 8.87V17h8.76c1.85 0 3.35-1.67 3.35-3.73 0-1.87-1.24-3.42-2.86-3.68-.36-2.55-2.38-4.5-4.82-4.5-1.91 0-3.57 1.19-4.33 2.91-.04.29-.1.58-.1.87zm-2.16.71c-.41 0-.75.34-.75.75v5.92c0 .41.34.75.75.75s.75-.34.75-.75v-5.92c0-.41-.34-.75-.75-.75zm-2.4 1.35c-.41 0-.75.34-.75.75v4.57c0 .41.34.75.75.75s.75-.34.75-.75v-4.57c0-.41-.34-.75-.75-.75zm-2.4 1.15c-.41 0-.75.34-.75.75v3.42c0 .41.34.75.75.75s.75-.34.75-.75v-3.42c0-.41-.34-.75-.75-.75zm-2.4 1.25c-.41 0-.75.34-.75.75v2.17c0 .41.34.75.75.75s.75-.34.75-.75v-2.17c0-.41-.34-.75-.75-.75z"/>
@@ -483,17 +493,103 @@
       </a>
 
       <!-- SUPPORT TOGGLE -->
-      <button class="btn-platform btn-support-toggle" onclick="toggleSupport()">
+      <button type="button" class="btn-platform btn-support-toggle" id="supportToggleBtn">
         <span><span style="color: #ff3333;">❤️</span> SUPPORT / APOYAR</span>
         <span class="arrow-icon" id="supportArrow">▼</span>
       </button>
 
       <!-- SUPPORT OPTIONS DESPLEGABLE -->
       <div class="support-options" id="supportOptions">
-        <a href="https://cafecito.app/luisenvivo" target="_blank" class="btn-platform btn-cafecito">
+        <a href="https://cafecito.app/luisenvivo" target="_blank" rel="noopener noreferrer" class="btn-platform btn-cafecito">
           <span>CAFECITO (ARS)</span>
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M18.5 3H6c-1.1 0-2 .9-2 2v5.71c0 3.83 2.95 7.18 6.78 7.29 3.96.12 7.22-3.06 7.22-7v-1h.5c1.93 0 3.5-1.57 3.5-3.5S20.43 3 18.5 3zM16 11c0 2.76-2.24 5-5 5s-5-2.24-5-5V5h10v6zm2.5-3H18V5h.5c.83 0 1.5.67 1.5 1.5S19.33 8 18.5 8zM4 19h16v2H4v-2z"/>
           </svg>
         </a>
-        <a href="
+        <a href="https://ko-fi.com/luisenvivo" target="_blank" rel="noopener noreferrer" class="btn-platform btn-kofi">
+          <span>KO-FI (USD)</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M23.881 8.948c-.773-4.085-4.859-4.593-4.859-4.593H3.603C2.26 4.355 1.173 5.442 1.173 6.786v9.803c0 2.21 1.791 4.001 4.001 4.001h10.452c3.151 0 5.688-2.537 5.688-5.688v-.522c1.696-.286 2.971-1.748 2.971-3.513 0-1.163-.404-1.685-.404-1.919zM18.82 14.9c0 1.83-1.488 3.318-3.318 3.318H5.174c-1.02 0-1.846-.826-1.846-1.846V6.786c0-.204.166-.37.37-.37h15.122c.204 0 .37.166.37.37v8.114zm-6.857-6.118c-1.022-.927-2.587-.846-3.515.177-.928-1.023-2.493-1.104-3.515-.177-1.147 1.04-1.204 2.828-.127 3.938l3.642 3.748 3.642-3.748c1.077-1.11 1.02-2.898-.127-3.938z"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="schedule-bar">
+      🕒 <span><strong>LUNES A SÁBADOS:</strong> 19:00 ART</span>
+    </div>
+
+    <div class="footer-top">
+      <div class="status-badge">
+        <div class="pulse-dot"></div>
+        <span>LUISENVIVO 2026, Argentina</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const closeMenuBtn = document.getElementById('closeMenuBtn');
+      const menuOverlay = document.getElementById('menuOverlay');
+      const menuHomeLink = document.getElementById('menuHomeLink');
+      const supportToggleBtn = document.getElementById('supportToggleBtn');
+      const supportOptions = document.getElementById('supportOptions');
+      const supportArrow = document.getElementById('supportArrow');
+      const twitchIframe = document.getElementById('twitch-embed');
+      const twitchLocalHint = document.getElementById('twitchLocalHint');
+
+      // Menú fullscreen
+      function setMenuState(open) {
+        menuOverlay.classList.toggle('active', open);
+        menuOverlay.setAttribute('aria-hidden', String(!open));
+        document.body.style.overflow = open ? 'hidden' : '';
+      }
+
+      hamburgerBtn.addEventListener('click', () => {
+        const isOpen = menuOverlay.classList.contains('active');
+        setMenuState(!isOpen);
+      });
+
+      closeMenuBtn.addEventListener('click', () => {
+        setMenuState(false);
+      });
+
+      menuHomeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        setMenuState(false);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menuOverlay.classList.contains('active')) {
+          setMenuState(false);
+        }
+      });
+
+      // Desplegable Support
+      supportToggleBtn.addEventListener('click', () => {
+        supportOptions.classList.toggle('active');
+        supportArrow.classList.toggle('open');
+      });
+
+      // Player de Twitch
+      const hostname = window.location.hostname;
+      if (window.location.protocol === 'file:' || !hostname) {
+        twitchIframe.style.display = 'none';
+        twitchLocalHint.textContent = 'El embed de Twitch requiere un servidor HTTP o dominio (como GitHub Pages) para validar el parámetro parent.';
+      } else {
+        const parents = [hostname];
+        if (hostname !== 'localhost') {
+          parents.push('localhost');
+        }
+        const parentParams = parents.map((p) => `parent=${encodeURIComponent(p)}`).join('&');
+        twitchIframe.src = `https://player.twitch.tv/?channel=luisenvivo&${parentParams}&autoplay=true&muted=true`;
+      }
+    });
+  </script>
+</body>
+</html>
