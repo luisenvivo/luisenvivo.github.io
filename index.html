@@ -179,7 +179,7 @@
       gap: 16px;
     }
 
-    /* Reproductor Twitch */
+    /* Reproductor Principal */
     .player-wrapper {
       position: relative;
       width: 100%;
@@ -191,15 +191,27 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     }
 
-    .player-wrapper iframe {
+    /* Contenedor del SDK de Twitch: oculto mientras esté offline */
+    #twitch-embed {
       position: absolute;
-      top: 0;
-      left: 0;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    #twitch-embed.is-live {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #twitch-embed iframe {
       width: 100%;
       height: 100%;
       border: none;
-      z-index: 2;
-      background-color: transparent;
     }
 
     /* Tarjeta de Respaldo Offline */
@@ -210,42 +222,73 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      background: linear-gradient(145deg, #0d0d0d, #050505);
-      z-index: 1;
-      padding: 20px;
+      background: radial-gradient(circle at top, #181010 0%, #070707 100%);
+      z-index: 2;
+      padding: 18px 22px;
       text-align: center;
       gap: 8px;
     }
 
-    .offline-note-small {
-      font-size: 0.72rem;
-      color: #555555;
-      max-width: 280px;
-      line-height: 1.35;
+    .offline-fallback.hidden-by-live {
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .offline-notice {
-      background-color: #0c0c0c;
-      border: 1px solid #1f1f1f;
-      border-radius: 14px;
-      padding: 14px 18px;
-      font-size: 0.85rem;
-      color: #999999;
-      text-align: center;
-      line-height: 1.5;
-    }
-
-    .offline-notice a {
+    .offline-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
       color: #ff3333;
-      font-weight: 700;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 4px;
-      transition: color 0.2s ease;
+      background: rgba(255, 51, 51, 0.14);
+      border: 1px solid rgba(255, 51, 51, 0.35);
+      padding: 3px 9px;
+      border-radius: 999px;
     }
 
-    .offline-notice a:hover {
+    .offline-fallback-title {
+      font-weight: 800;
       color: #ffffff;
+      font-size: 0.88rem;
+      line-height: 1.35;
+      max-width: 340px;
+    }
+
+    .latest-set-title {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: #cccccc;
+      max-width: 340px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .replay-link {
+      margin-top: 2px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(255, 51, 51, 0.16);
+      border: 1px solid rgba(255, 51, 51, 0.55);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+    }
+
+    .replay-link:hover {
+      background: #ff3333;
+      color: #ffffff;
+      transform: translateY(-1px);
     }
 
     /* Stack de Botones de Plataformas */
@@ -477,20 +520,15 @@
 
   <!-- Contenido Principal -->
   <main>
-    <!-- Reproductor Twitch con Respaldo Offline -->
+    <!-- Reproductor Principal -->
     <div class="player-wrapper">
-      <div class="offline-fallback">
-        <p style="font-weight: 700; color: #ffffff; font-size: 0.9rem; letter-spacing: 1px;">THE BUNKER SESSIONS</p>
-        <p style="font-size: 0.78rem; color: #777777;">Transmisión inactiva en este momento.</p>
-        <p class="offline-note-small" id="twitchLocalHint"></p>
+      <div class="offline-fallback" id="offlineFallback">
+        <span class="offline-pill">OFFLINE</span>
+        <p class="offline-fallback-title">Actualmente Luis no está al aire, pero podés escuchar su última sesión!</p>
+        <p class="latest-set-title" id="latestSetTitle" style="display: none;"></p>
+        <a href="https://hearthis.at/luisenvivo" target="_blank" rel="noopener noreferrer" class="replay-link" id="latestSetLink">▶ Escuchar última sesión en Hearthis</a>
       </div>
-      <iframe id="twitch-embed" allowfullscreen allow="autoplay; fullscreen"></iframe>
-    </div>
-
-    <!-- Leyenda Offline -->
-    <div class="offline-notice">
-      🎧 ¿Querés escuchar música ahora mismo? <br>
-      <a href="https://hearthis.at/luisenvivo" target="_blank" rel="noopener noreferrer">Escuchá el último set en Hearthis.at →</a>
+      <div id="twitch-embed"></div>
     </div>
 
     <!-- Stack de Botones principales -->
@@ -503,7 +541,7 @@
         </svg>
       </a>
 
-     <!-- HEARTHIS.AT -->
+      <!-- HEARTHIS.AT -->
       <a href="https://hearthis.at/luisenvivo" target="_blank" rel="noopener noreferrer" class="btn-platform btn-hearthis">
         <span>HEARTHIS.AT</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -511,7 +549,7 @@
         </svg>
       </a>
 
-       <!-- KICK -->
+      <!-- KICK -->
       <a href="https://kick.com/luisenvivo" target="_blank" rel="noopener noreferrer" class="btn-platform btn-kick">
         <span>KICK</span>
         <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -565,6 +603,8 @@
     </div>
   </footer>
 
+  <!-- Twitch Interactive Embed SDK -->
+  <script src="https://embed.twitch.tv/embed/v1.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -574,8 +614,10 @@
       const supportToggleBtn = document.getElementById('supportToggleBtn');
       const supportOptions = document.getElementById('supportOptions');
       const supportArrow = document.getElementById('supportArrow');
-      const twitchIframe = document.getElementById('twitch-embed');
-      const twitchLocalHint = document.getElementById('twitchLocalHint');
+      const twitchContainer = document.getElementById('twitch-embed');
+      const offlineFallback = document.getElementById('offlineFallback');
+      const latestSetTitle = document.getElementById('latestSetTitle');
+      const latestSetLink = document.getElementById('latestSetLink');
 
       // Menú fullscreen
       function setMenuState(open) {
@@ -611,18 +653,79 @@
         supportArrow.classList.toggle('open');
       });
 
-      // Player de Twitch
-      const hostname = window.location.hostname;
-      if (window.location.protocol === 'file:' || !hostname) {
-        twitchIframe.style.display = 'none';
-        twitchLocalHint.textContent = 'El embed de Twitch requiere un servidor HTTP o dominio (como GitHub Pages) para validar el parámetro parent.';
-      } else {
-        const parents = [hostname];
-        if (hostname !== 'localhost') {
-          parents.push('localhost');
+      // Absorber título y enlace del último set desde podcast.xml
+      async function loadLatestHearthisSet() {
+        const feedUrl = 'https://hearthis.at/luisenvivo/podcast.xml';
+        const endpoints = [
+          feedUrl,
+          `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`
+        ];
+
+        for (const url of endpoints) {
+          try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), 4500);
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeout);
+
+            if (!response.ok) continue;
+
+            const xmlText = await response.text();
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(xmlText, 'application/xml');
+            const firstItem = xmlDoc.querySelector('channel > item, item');
+
+            if (!firstItem) continue;
+
+            const title = (firstItem.querySelector('title')?.textContent || '').trim();
+            const link = (firstItem.querySelector('link')?.textContent || '').trim();
+
+            if (title) {
+              latestSetTitle.textContent = title;
+              latestSetTitle.title = title;
+              latestSetTitle.style.display = 'block';
+            }
+
+            if (link && link.startsWith('http')) {
+              latestSetLink.href = link;
+            }
+            return;
+          } catch (_) {
+            // Intenta siguiente endpoint o mantiene el fallback por defecto
+          }
         }
-        const parentParams = parents.map((p) => `parent=${encodeURIComponent(p)}`).join('&');
-        twitchIframe.src = `https://player.twitch.tv/?channel=luisenvivo&${parentParams}&autoplay=true&muted=true`;
+      }
+
+      loadLatestHearthisSet();
+
+      // Player de Twitch con detección automática ONLINE / OFFLINE
+      const hostname = window.location.hostname;
+      if (window.location.protocol !== 'file:' && hostname && window.Twitch && window.Twitch.Embed) {
+        const parents = Array.from(new Set([hostname, 'luisenvivo.github.io', 'localhost']));
+
+        const embed = new Twitch.Embed('twitch-embed', {
+          width: '100%',
+          height: '100%',
+          channel: 'luisenvivo',
+          layout: 'video',
+          autoplay: true,
+          muted: true,
+          parent: parents
+        });
+
+        embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
+          const player = embed.getPlayer();
+
+          player.addEventListener(Twitch.Player.ONLINE, () => {
+            twitchContainer.classList.add('is-live');
+            offlineFallback.classList.add('hidden-by-live');
+          });
+
+          player.addEventListener(Twitch.Player.OFFLINE, () => {
+            twitchContainer.classList.remove('is-live');
+            offlineFallback.classList.remove('hidden-by-live');
+          });
+        });
       }
     });
   </script>
