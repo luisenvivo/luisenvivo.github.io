@@ -191,7 +191,7 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
     }
 
-    /* Contenedor del SDK de Twitch: oculto mientras esté offline */
+    /* Contenedor del SDK de Twitch */
     #twitch-embed {
       position: absolute;
       inset: 0;
@@ -227,6 +227,8 @@
       padding: 18px 22px;
       text-align: center;
       gap: 8px;
+      opacity: 1;
+      transition: opacity 0.35s ease;
     }
 
     .offline-fallback.hidden-by-live {
@@ -698,6 +700,16 @@
 
       loadLatestHearthisSet();
 
+      function showLivePlayer() {
+        twitchContainer.classList.add('is-live');
+        offlineFallback.classList.add('hidden-by-live');
+      }
+
+      function showOfflineFallback() {
+        twitchContainer.classList.remove('is-live');
+        offlineFallback.classList.remove('hidden-by-live');
+      }
+
       // Player de Twitch con detección automática ONLINE / OFFLINE
       const hostname = window.location.hostname;
       if (window.location.protocol !== 'file:' && hostname && window.Twitch && window.Twitch.Embed) {
@@ -716,14 +728,21 @@
         embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
           const player = embed.getPlayer();
 
+          // Si ya está reproduciendo o el canal está online al cargar
+          if (!player.isPaused()) {
+            showLivePlayer();
+          }
+
           player.addEventListener(Twitch.Player.ONLINE, () => {
-            twitchContainer.classList.add('is-live');
-            offlineFallback.classList.add('hidden-by-live');
+            showLivePlayer();
+          });
+
+          player.addEventListener(Twitch.Player.PLAY, () => {
+            showLivePlayer();
           });
 
           player.addEventListener(Twitch.Player.OFFLINE, () => {
-            twitchContainer.classList.remove('is-live');
-            offlineFallback.classList.remove('hidden-by-live');
+            showOfflineFallback();
           });
         });
       }
